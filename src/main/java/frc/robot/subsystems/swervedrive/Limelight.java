@@ -5,12 +5,12 @@ import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.Leds.*;
 
 
-public class Limelight_LED_Test extends SubsystemBase {
+public class Limelight extends SubsystemBase {
 
     private Leds ledstrip;
     private String ledname;
 
-    public Limelight_LED_Test(Leds led,String Ledname) {
+    public Limelight(Leds led,String Ledname) {
         this.ledstrip = led;
         this.ledname=Ledname;
     }
