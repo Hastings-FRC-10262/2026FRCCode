@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Leds;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PhotoelectricSensor;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 //import frc.robot.subsystems.swervedrive.Limelight_LED_Test;
@@ -46,7 +47,7 @@ public class RobotContainer
                                                                                 
   private final PhotoelectricSensor sensor = new PhotoelectricSensor(0);
   private final Leds leds = new Leds(1, sensor);
-
+  private final Limelight limelight = new Limelight(leds,"limelight-a", 9);
 
   
 

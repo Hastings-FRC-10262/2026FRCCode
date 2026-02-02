@@ -9,17 +9,19 @@ public class Limelight extends SubsystemBase {
 
     private Leds ledstrip;
     private String ledname;
+    private int pipe;
 
-    public Limelight(Leds led,String Ledname) {
+    public Limelight(Leds led,String Ledname, int pipenum) {
         this.ledstrip = led;
-        this.ledname=Ledname;
+        this.ledname= Ledname;
+        this.pipe=pipenum;
+        
     }
 
     @Override
     public void periodic() {
-        LimelightHelpers.setPipelineIndex(ledname, 9);
-        LimelightHelpers.LimelightResults results =
-                LimelightHelpers.getLatestResults(ledname);
+        LimelightHelpers.setPipelineIndex(ledname, pipe);
+        LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(ledname);
         boolean seesAprilTag =
                 results != null &&
                 results.targets_Fiducials != null &&
