@@ -1,44 +1,78 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.swervedrive;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.LimelightHelpers;
-import frc.robot.subsystems.Leds.*;
+import frc.robot.subsystems.swervedrive.Leds;
 
+public class Limelight_LED_Test extends SubsystemBase {
 
-public class Limelight extends SubsystemBase {
+    private final Leds ledstrip;
+    private final String limelightName;
+    public double angle;
 
-    private Leds ledstrip;
-    private String ledname;
-    private int pipe;
-
-    public Limelight(Leds led,String Ledname, int pipenum) {
+    public Limelight_LED_Test(Leds led, String limelightName) {
         this.ledstrip = led;
-        this.ledname= Ledname;
-        this.pipe=pipenum;
-        
+        this.limelightName = limelightName;
+
+        LimelightHelpers.setPipelineIndex(limelightName, 9);
+    }
+    
+    public double getDistance() {
+        return LimelightHelpers
+                .getTargetPose3d_CameraSpace(limelightName)
+                .getZ();
+    }
+
+    public Pose2d getBotPose() {
+        return LimelightHelpers.getBotPose2d_wpiBlue(limelightName);
+    }
+
+    public int getTag(){
+        int tag =  getTargetCount(limelightName);
+        return tag
     }
 
     @Override
     public void periodic() {
-        LimelightHelpers.setPipelineIndex(ledname, pipe);
-        LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(ledname);
+
+        LimelightHelpers.LimelightResults results =
+                LimelightHelpers.getLatestResults(limelightName);
+
         boolean seesAprilTag =
                 results != null &&
+                results.valid &&
                 results.targets_Fiducials != null &&
                 results.targets_Fiducials.length > 0;
-        System.out.println(results.valid);
-        System.out.println(results.targets_Fiducials.length);
-        System.out.println("tv = "+LimelightHelpers.getTV(ledname));
-        System.out.println(LimelightHelpers.getLatency_Pipeline(ledname));
+
         if (seesAprilTag) {
-            ledstrip.setWhite();
-            System.out.println("April tag seen!");
-            LimelightHelpers.setLEDMode_ForceOn(ledname);
+
+            this.angle = LimelightHelpers.getTX(limelightName);
+            double distanceMeters = getDistance();
+            Pose2d botPose = getBotPose();
+
+            System.out.println("AprilTag seen");
+            System.out.println("Robot X: " + botPose.getX());
+            System.out.println("Robot Y: " + botPose.getY());
+            System.out.println("Robot Heading: " + botPose.getRotation().getDegrees());
+            System.out.println("Camera Angle TX: " + angle);
+            System.out.println("Distance (m): " + distanceMeters);
+
+            if (distanceMeters <= 1.0) {
+                ledstrip.setYellow();
+            } else {
+                ledstrip.setWhite();
+            }
+
+            LimelightHelpers.setLEDMode_ForceOn(limelightName);
+
         } else {
+
+            System.out.println("AprilTag NOT seen");
+
             ledstrip.setOrange();
-            System.out.println("April tag not seen!");
-            // System.out.println("April tag NOT seen!");
-            LimelightHelpers.setLEDMode_ForceOff(ledname);
+            LimelightHelpers.setLEDMode_ForceOff(limelightName);
         }
     }
 }
