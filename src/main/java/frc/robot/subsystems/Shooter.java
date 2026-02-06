@@ -191,7 +191,7 @@ public class Shooter extends SubsystemBase{
         }, () -> {
           flywheelMotor.stopMotor();
           feederMotor.stopMotor();
-          m_Conveyor.ConveyorMotor.stopMotor();
+          m_Conveyor.conveyorMotor.stopMotor();
         })
     ).withName("Shooting");
   }

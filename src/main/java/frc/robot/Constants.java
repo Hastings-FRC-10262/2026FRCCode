@@ -40,8 +40,9 @@ public final class Constants
   }
 
   public static final class IntakeSubsystemConstants {
-    public static final int kIntakeMotorCanId = 2;    // can id
-    public static final int kConveyorMotorCanId = 4;  // can id
+    public static final int kIntakeMotorCanId = 14;    // can id
+    public static final int kConveyorMotorCanId = 10;  // can id
+    
 
     public static final class IntakeSetpoints {
       public static final double kIntake = 0.6;
@@ -55,9 +56,9 @@ public final class Constants
   }
 
   public static final class ShooterSubsystemConstants {
-    public static final int kFeederMotorCanId = 5;    // SPARK Flex CAN ID
-    public static final int kFlywheelMotorCanId = 6;  // SPARK Flex CAN ID (Right)
-    public static final int kFlywheelFollowerMotorCanId = 7;  // SPARK Flex CAN ID (Left)
+    public static final int kFeederMotorCanId = 13;    // SPARK Flex CAN ID
+    public static final int kFlywheelMotorCanId = 11;  // SPARK Flex CAN ID (Right)
+    public static final int kFlywheelFollowerMotorCanId = 12;  // SPARK Flex CAN ID (Left)
 
     public static final class FeederSetpoints {
       public static final double kFeed = 0.95;
