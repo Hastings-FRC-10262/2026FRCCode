@@ -14,6 +14,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -197,7 +198,9 @@ public class RobotContainer
       driverXbox.start().whileTrue(Commands.none());
       driverXbox.back().whileTrue(Commands.none());
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-      driverXbox.rightBumper().onTrue(Commands.none());
+      driverXbox.rightTrigger(0.0).whileTrue(intake.runIntakeCommand());
+      driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
+      driverXbox.leftTrigger(0.0).whileTrue(driveSetpointGenKeyboard);
     }
 
   }
@@ -208,9 +211,11 @@ public class RobotContainer
    * @return the command to run in autonomous
    */
   private void configureAutos() {
-    m_chooser.setDefaultOption("Test", "Test");
-    m_chooser.setDefaultOption("Curvy", "Curvy");
-
+    m_chooser.setDefaultOption("Curvy","Curvy");
+    m_chooser.addOption("Taxi", "Test");
+    //m_chooser.addOption("", Autos.);
+    //m_chooser.addOption("", Autos.);
+    //m_chooser.addOption("", Autos.);
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 
@@ -218,7 +223,7 @@ public class RobotContainer
   {
     // An example command will be run in autonomous
     String SelectedAuto = m_chooser.getSelected();
-    return drivebase.getAutonomousCommand("Test");
+    return drivebase.getAutonomousCommand(SelectedAuto);
   }
 
   public void setMotorBrake(boolean brake)
