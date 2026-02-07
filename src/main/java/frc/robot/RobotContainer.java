@@ -209,7 +209,7 @@ public class RobotContainer
    */
   private void configureAutos() {
     m_chooser.setDefaultOption("Test", "Test");
-    m_chooser.setDefaultOption("Test 2", "Test 2");
+    m_chooser.setDefaultOption("Curvy", "Curvy");
 
     SmartDashboard.putData("Auto mode", m_chooser);
   }
