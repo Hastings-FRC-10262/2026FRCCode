@@ -17,8 +17,20 @@ public class Leds extends SubsystemBase {
     public void setGreen() {
         m_Led.set(0.77);
     }
+    public void Gray() {
+        m_Led.set(0.97);
+    }
     public void setRed() {
         m_Led.set(0.61);
+    }
+    public void setPink() {
+        m_Led.set(0.57);
+    }
+    public void setDarkRed() {
+        m_Led.set(0.59);
+    }
+    public void Violet() {
+        m_Led.set(0.91);
     }
     public void setOrange(){
         m_Led.set(0.65);
@@ -42,6 +54,7 @@ public class Leds extends SubsystemBase {
     public void periodic(){
         if (sensor.isTripped()){
             //setGreen();
+            
             ;
         }else if(DriverStation.isDisabled()){
             //setRainbow();
