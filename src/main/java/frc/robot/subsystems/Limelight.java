@@ -29,11 +29,6 @@ public class Limelight_LED_Test extends SubsystemBase {
         return LimelightHelpers.getBotPose2d_wpiBlue(limelightName);
     }
 
-    public int getTag(){
-        int tag =  getTargetCount(limelightName);
-        return tag
-    }
-
     @Override
     public void periodic() {
 
@@ -61,7 +56,8 @@ public class Limelight_LED_Test extends SubsystemBase {
 
             if (distanceMeters <= 1.0) {
                 ledstrip.setYellow();
-            } else {
+            } 
+            else {
                 ledstrip.setWhite();
             }
 
