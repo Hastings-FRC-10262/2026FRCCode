@@ -23,7 +23,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Leds;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Limelight_LED_Test;
 import frc.robot.subsystems.PhotoelectricSensor;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -51,11 +51,11 @@ public class RobotContainer
                                                                                 
   private final PhotoelectricSensor sensor = new PhotoelectricSensor(0);
   private final Leds leds = new Leds(1, sensor);
-  // private final Limelight limelight = new Limelight(leds,"limelight-a", 9);
+  //private final Limelight_LED_Test limelight = new Limelight_LED_Test(leds,"limelight-a", 9);
 
-  private final Conveyor conveyor = new Conveyor();
-  private final Shooter shooter = new Shooter(conveyor);
-  private final Intake intake = new Intake(conveyor);
+  //private final Conveyor conveyor = new Conveyor();
+  //private final Shooter shooter = new Shooter(conveyor);
+  //private final Intake intake = new Intake(conveyor);
 
 
   
@@ -85,8 +85,8 @@ public class RobotContainer
                                                              .allianceRelativeControl(false);
 
   SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                        () -> -driverXbox.getLeftY(),
-                                                                        () -> -driverXbox.getLeftX())
+                                                                        () -> driverXbox.getLeftY(),
+                                                                        () -> driverXbox.getLeftX())
                                                                     .withControllerRotationAxis(() -> driverXbox.getRawAxis(
                                                                         2))
                                                                     .deadband(OperatorConstants.DEADBAND)
@@ -198,9 +198,9 @@ public class RobotContainer
       driverXbox.start().whileTrue(Commands.none());
       driverXbox.back().whileTrue(Commands.none());
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-      driverXbox.rightTrigger(0.0).whileTrue(intake.runIntakeCommand());
-      driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
-      driverXbox.leftTrigger(0.0).whileTrue(driveSetpointGenKeyboard);
+      //driverXbox.rightTrigger(0.0).whileTrue(intake.runIntakeCommand());
+      //driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
+      //driverXbox.leftTrigger(0.0).whileTrue(driveSetpointGenKeyboard);
     }
 
   }
@@ -211,8 +211,8 @@ public class RobotContainer
    * @return the command to run in autonomous
    */
   private void configureAutos() {
-    m_chooser.setDefaultOption("Curvy","Curvy");
-    m_chooser.addOption("Taxi", "Test");
+    m_chooser.setDefaultOption("Taxy","Test");
+    m_chooser.addOption("Curvy", "Curvy");
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);
