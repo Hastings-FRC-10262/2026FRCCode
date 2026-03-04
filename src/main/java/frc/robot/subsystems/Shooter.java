@@ -44,6 +44,8 @@ public class Shooter extends SubsystemBase{
   private Conveyor m_Conveyor;
 
   public Shooter(Conveyor conveyor) {
+
+    m_Conveyor = conveyor;
     
     final double nominalVoltage = 12.0;
 
@@ -83,7 +85,7 @@ public class Shooter extends SubsystemBase{
 
       // Configure the follower flywheel motor to follow the main flywheel motor
       flywheelFollowerConfig.apply(flywheelConfig)
-        .follow(Constants.ShooterSubsystemConstants.kFlywheelMotorCanId, true);
+        .follow(Constants.ShooterSubsystemConstants.kFlywheelFollowerMotorCanId, true);
 
       // Configure basic setting of the feeder motor
       feederConfig
@@ -117,7 +119,7 @@ public class Shooter extends SubsystemBase{
    * Trigger: Is the flywheel spinning at the required velocity?
    */
   public final Trigger isFlywheelSpinning = new Trigger(
-      () -> isFlywheelAt(5000) || flywheelEncoder.getVelocity() > 5000
+      () -> isFlywheelAt(-300) || flywheelEncoder.getVelocity() < -300
   );
 
   public final Trigger isFlywheelSpinningBackwards = new Trigger(

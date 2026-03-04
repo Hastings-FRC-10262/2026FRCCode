@@ -4,6 +4,17 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.DriveFeedforwards;
+import com.pathplanner.lib.util.swerve.SwerveSetpoint;
+import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -53,9 +64,9 @@ public class RobotContainer
   private final Leds leds = new Leds(1, sensor);
   //private final Limelight_LED_Test limelight = new Limelight_LED_Test(leds,"limelight-a", 9);
 
-  //private final Conveyor conveyor = new Conveyor();
-  //private final Shooter shooter = new Shooter(conveyor);
-  //private final Intake intake = new Intake(conveyor);
+  private final Conveyor conveyor = new Conveyor();
+  private final Shooter shooter = new Shooter(conveyor);
+  private final Intake intake = new Intake(conveyor);
 
 
   
@@ -199,8 +210,8 @@ public class RobotContainer
       driverXbox.back().whileTrue(Commands.none());
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       //driverXbox.rightTrigger(0.0).whileTrue(intake.runIntakeCommand());
-      //driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
-      //driverXbox.leftTrigger(0.0).whileTrue(driveSetpointGenKeyboard);
+      driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
+      driverXbox.leftTrigger().whileTrue(shooter.runShooterCommand());
     }
 
   }

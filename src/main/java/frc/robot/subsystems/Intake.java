@@ -68,7 +68,7 @@ public class Intake extends SubsystemBase {
             () -> {
               IntakeMotor.set(power);
             });
-    }
+    } 
 
 
     @Override

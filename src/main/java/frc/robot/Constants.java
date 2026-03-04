@@ -38,20 +38,22 @@ public final class Constants
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
-
+  public static final class ArmSubsystemConstants{
+    public static final int kArmMotorCanId = 15;
+  }
   public static final class IntakeSubsystemConstants {
     public static final int kIntakeMotorCanId = 14;    // can id
     public static final int kConveyorMotorCanId = 10;  // can id
     
 
     public static final class IntakeSetpoints {
-      public static final double kIntake = 0.6;
-      public static final double kExtake = -0.6;
+      public static final double kIntake = -0.3;
+      public static final double kExtake = 0.3;
     }
 
     public static final class ConveyorSetpoints {
-      public static final double kIntake = 0.7;
-      public static final double kExtake = -0.7;
+      public static final double kIntake = 0.3;
+      public static final double kExtake = -0.3;
     }
   }
 
@@ -65,7 +67,7 @@ public final class Constants
     }
 
     public static final class FlywheelSetpoints {
-      public static final double kShootRpm = 5000;
+      public static final double kShootRpm = -500;
       public static final double kVelocityTolerance = 100;
     }
   }
