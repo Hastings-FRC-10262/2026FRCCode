@@ -38,13 +38,10 @@ public class Shooter extends SubsystemBase{
   // Initialize feeder SPARK. We will use open loop control for this so we don't need a closed loop
   // controller like above.
   private SparkFlex feederMotor = new SparkFlex(ShooterSubsystemConstants.kFeederMotorCanId, MotorType.kBrushless);
-
-  private double flywheelTargetVelocity = 0.0;
-
+  private RelativeEncoder feederMotorEncoder = feederMotor.getEncoder();
   private Conveyor m_Conveyor;
 
   public Shooter(Conveyor conveyor) {
-
     m_Conveyor = conveyor;
     
     final double nominalVoltage = 12.0;
@@ -119,11 +116,11 @@ public class Shooter extends SubsystemBase{
    * Trigger: Is the flywheel spinning at the required velocity?
    */
   public final Trigger isFlywheelSpinning = new Trigger(
-      () -> isFlywheelAt(-300) || flywheelEncoder.getVelocity() < -300
+      () -> isFlywheelAt(-4500) || flywheelEncoder.getVelocity() < (-4500)
   );
 
   public final Trigger isFlywheelSpinningBackwards = new Trigger(
-      () -> isFlywheelAt(-5000) || flywheelEncoder.getVelocity() < -5000
+      () -> isFlywheelAt(-4500) || flywheelEncoder.getVelocity() < (-4500) 
   );
 
   /** 
@@ -138,7 +135,7 @@ public class Shooter extends SubsystemBase{
    */
   private void setFlywheelVelocity(double velocity) {
     flywheelController.setSetpoint(velocity, ControlType.kMAXMotionVelocityControl);
-    flywheelTargetVelocity = velocity;
+    
   }
 
   /** Set the feeder motor power in the range of [-1, 1]. */
@@ -197,4 +194,9 @@ public class Shooter extends SubsystemBase{
         })
     ).withName("Shooting");
   }
+  @Override
+  public void periodic() {
+        SmartDashboard.putNumber("flywheelEncoder", flywheelEncoder.getVelocity());
+        SmartDashboard.putNumber("feederEncoder", feederMotorEncoder.getVelocity());
+    }
 }

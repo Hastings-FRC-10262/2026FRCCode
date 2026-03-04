@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.io.ObjectInputFilter.Config;
 
 import com.revrobotics.spark.SparkFlex;
-
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.*;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -21,6 +21,7 @@ import frc.robot.subsystems.Conveyor;
 public class Intake extends SubsystemBase {
     SparkFlex IntakeMotor;
     Conveyor m_conveyor;
+    RelativeEncoder encoder;
     public Intake(Conveyor conveyor) {
         IntakeMotor = new SparkFlex(IntakeSubsystemConstants.kIntakeMotorCanId, MotorType.kBrushless);
         

@@ -40,6 +40,11 @@ public final class Constants
   }
   public static final class ArmSubsystemConstants{
     public static final int kArmMotorCanId = 15;
+    public static final int armkI=0;
+    public static final int armkP=0;
+    public static final int armkD=0;
+    public static final int armTolerance=0;
+    
   }
   public static final class IntakeSubsystemConstants {
     public static final int kIntakeMotorCanId = 14;    // can id
@@ -47,8 +52,8 @@ public final class Constants
     
 
     public static final class IntakeSetpoints {
-      public static final double kIntake = -0.3;
-      public static final double kExtake = 0.3;
+      public static final double kIntake = -0.4;
+      public static final double kExtake = 0.4;
     }
 
     public static final class ConveyorSetpoints {
@@ -63,7 +68,7 @@ public final class Constants
     public static final int kFlywheelFollowerMotorCanId = 12;  // SPARK Flex CAN ID (Left)
 
     public static final class FeederSetpoints {
-      public static final double kFeed = 0.95;
+      public static final double kFeed = 0.15;
     }
 
     public static final class FlywheelSetpoints {
@@ -73,7 +78,7 @@ public final class Constants
   }
 
   public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 5676;
+    public static final double kFreeSpeedRpm = 500;
     public static final double kVortexKv = 565;   // rpm/V
   }
 

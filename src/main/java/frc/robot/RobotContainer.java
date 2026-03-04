@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Leds;
@@ -55,7 +56,9 @@ public class RobotContainer
 {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  final         CommandXboxController driverXbox = new CommandXboxController(0);
+  private final CommandXboxController ChangeVelocity =
+    new CommandXboxController(1);
+  final CommandXboxController driverXbox = new CommandXboxController(0);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
@@ -67,6 +70,7 @@ public class RobotContainer
   private final Conveyor conveyor = new Conveyor();
   private final Shooter shooter = new Shooter(conveyor);
   private final Intake intake = new Intake(conveyor);
+  private final Arm arm= new Arm();
 
 
   
@@ -195,7 +199,6 @@ public class RobotContainer
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
 
       driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-      driverXbox.y().whileTrue(drivebase.driveToDistanceCommand(1.0, 0.2));
       driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       driverXbox.back().whileTrue(drivebase.centerModulesCommand());
       driverXbox.leftBumper().onTrue(Commands.none());
@@ -204,14 +207,14 @@ public class RobotContainer
     {
       
       //driverXbox.b().whileTrue(drivebase.centerModulesCommand());
-      driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-      driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
-      driverXbox.start().whileTrue(Commands.none());
+
       driverXbox.back().whileTrue(Commands.none());
-      driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-      //driverXbox.rightTrigger(0.0).whileTrue(intake.runIntakeCommand());
       driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
       driverXbox.leftTrigger().whileTrue(shooter.runShooterCommand());
+      driverXbox.rightTrigger().whileTrue(shooter.runShooterCommand2());
+      driverXbox.leftBumper().whileTrue(shooter.runShooterCommand3());
+      driverXbox.x().whileTrue(intake.runExtakeCommand());
+      //driverXbox.y().onTrue(arm.);
     }
 
   }
@@ -220,7 +223,7 @@ public class RobotContainer
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
-   */
+   */ 
   private void configureAutos() {
     m_chooser.setDefaultOption("Taxy","Test");
     m_chooser.addOption("Curvy", "Curvy");
