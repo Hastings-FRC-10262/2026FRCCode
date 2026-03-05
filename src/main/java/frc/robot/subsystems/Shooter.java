@@ -34,7 +34,7 @@ public class Shooter extends SubsystemBase{
   private RelativeEncoder flywheelEncoder = flywheelMotor.getEncoder();
 
   private SparkFlex flywheelFollowerMotor = new SparkFlex(ShooterSubsystemConstants.kFlywheelFollowerMotorCanId, MotorType.kBrushless);
-
+  private double flywheelTargetVelocity = 0.0;
   // Initialize feeder SPARK. We will use open loop control for this so we don't need a closed loop
   // controller like above.
   private SparkFlex feederMotor = new SparkFlex(ShooterSubsystemConstants.kFeederMotorCanId, MotorType.kBrushless);
@@ -51,7 +51,7 @@ public class Shooter extends SubsystemBase{
     final SparkFlexConfig feederConfig = new SparkFlexConfig();
     
           flywheelConfig
-        .inverted(true)
+        .inverted(false)
         .idleMode(IdleMode.kCoast)
         .closedLoopRampRate(1.0)
         .openLoopRampRate(1.0)
@@ -82,11 +82,11 @@ public class Shooter extends SubsystemBase{
 
       // Configure the follower flywheel motor to follow the main flywheel motor
       flywheelFollowerConfig.apply(flywheelConfig)
-        .follow(Constants.ShooterSubsystemConstants.kFlywheelFollowerMotorCanId, true);
+        .follow(Constants.ShooterSubsystemConstants.kFlywheelMotorCanId, true);
 
       // Configure basic setting of the feeder motor
       feederConfig
-        .inverted(true)
+        .inverted(true)//test if we turn false
         .idleMode(IdleMode.kCoast)
         .openLoopRampRate(1.0)
         .smartCurrentLimit(60);
@@ -116,11 +116,11 @@ public class Shooter extends SubsystemBase{
    * Trigger: Is the flywheel spinning at the required velocity?
    */
   public final Trigger isFlywheelSpinning = new Trigger(
-      () -> isFlywheelAt(-4500) || flywheelEncoder.getVelocity() < (-4500)
+      () -> isFlywheelAt(-0) || flywheelEncoder.getVelocity() < (-0)
   );
 
   public final Trigger isFlywheelSpinningBackwards = new Trigger(
-      () -> isFlywheelAt(-4500) || flywheelEncoder.getVelocity() < (-4500) 
+      () -> isFlywheelAt(-0) || flywheelEncoder.getVelocity() < (-0) 
   );
 
   /** 
@@ -134,8 +134,8 @@ public class Shooter extends SubsystemBase{
    * setpoint.
    */
   private void setFlywheelVelocity(double velocity) {
-    flywheelController.setSetpoint(velocity, ControlType.kMAXMotionVelocityControl);
-    
+    flywheelController.setSetpoint(-60, ControlType.kMAXMotionVelocityControl);
+    flywheelTargetVelocity = velocity;
   }
 
   /** Set the feeder motor power in the range of [-1, 1]. */
@@ -178,12 +178,12 @@ public class Shooter extends SubsystemBase{
    */
   public Command runShooterCommand() {
     return this.startEnd(
-      () -> this.setFlywheelVelocity(FlywheelSetpoints.kShootRpm),
+      () -> this.setFlywheelVelocity(500),
       () -> flywheelMotor.stopMotor()
     ).until(isFlywheelSpinning).andThen(
       this.startEnd(
         () -> {
-          this.setFlywheelVelocity(FlywheelSetpoints.kShootRpm);
+          this.setFlywheelVelocity(500);
           this.setFeederPower(FeederSetpoints.kFeed);
           //run conveyor while shooter
           m_Conveyor.setConveyorPower(ConveyorSetpoints.kIntake);
@@ -196,7 +196,8 @@ public class Shooter extends SubsystemBase{
   }
   @Override
   public void periodic() {
-        SmartDashboard.putNumber("flywheelEncoder", flywheelEncoder.getVelocity());
+        SmartDashboard.putNumber("Shooter | Flywheel | Target Velocity", flywheelTargetVelocity);
+        SmartDashboard.putNumber("Shooter | Flywheel | Actual Velocity", flywheelEncoder.getVelocity());
         SmartDashboard.putNumber("feederEncoder", feederMotorEncoder.getVelocity());
     }
 }

@@ -211,8 +211,6 @@ public class RobotContainer
       driverXbox.back().whileTrue(Commands.none());
       driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
       driverXbox.leftTrigger().whileTrue(shooter.runShooterCommand());
-      driverXbox.rightTrigger().whileTrue(shooter.runShooterCommand2());
-      driverXbox.leftBumper().whileTrue(shooter.runShooterCommand3());
       driverXbox.x().whileTrue(intake.runExtakeCommand());
       //driverXbox.y().onTrue(arm.);
     }
