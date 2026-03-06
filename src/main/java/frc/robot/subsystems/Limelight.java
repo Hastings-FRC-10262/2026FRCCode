@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.Leds;
+import edu.wpi.first.math.geometry.Pose2d;
 
 public class Limelight_LED_Test extends SubsystemBase {
 
@@ -29,6 +30,23 @@ public class Limelight_LED_Test extends SubsystemBase {
         return LimelightHelpers.getBotPose2d_wpiBlue(limelightName);
     }
 
+// In your robot's periodic method (e.g., teleopPeriodic, autonomousPeriodic)
+public void robotPeriodic() {
+    // Get the pose estimate for the blue alliance field coordinate system
+    LimelightHelpers.PoseEstimate poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("")
+    // Check if the estimate is valid and has visible tags
+    if (poseEstimate != null && poseEstimate.tagCount > 0) {
+        Pose2d botPose = poseEstimate.pose;
+
+        // Print the X and Y coordinates
+        System.out.println("Robot Pose: X=" + botPose.getX() + ", Y=" + botPose.getY());
+
+        // SmartDashboard.putNumber("Bot Pose X", botPose.getX());
+        // SmartDashboard.putNumber("Bot Pose Y", botPose.getY());
+    } else {
+        System.out.println("Bot Pose: Unknown/Invalid");
+    }
+}
     @Override
     public void periodic() {
 
