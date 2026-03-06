@@ -41,8 +41,8 @@ public void robotPeriodic() {
         System.out.println(poseEstimate);
         System.out.println(pose3d);
 
-        SmartDashboard.putNumber("Bot Pose X", botPose.getX());
-        SmartDashboard.putNumber("Bot Pose Y", botPose.getY());
+        SmartDashboard.putNumber("Bot Pose X", pose3d.getX());
+        SmartDashboard.putNumber("Bot Pose Y", pose3d.getY());
     } else {
         System.out.println("Bot Pose: Unknown/Invalid");
     }
