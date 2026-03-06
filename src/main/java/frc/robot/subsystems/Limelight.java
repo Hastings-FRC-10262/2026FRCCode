@@ -33,12 +33,13 @@ public class Limelight_LED_Test extends SubsystemBase {
     
 //From Here
 public void robotPeriodic() {
-    LimelightHelpers.PoseEstimate poseEstimate = LimelightHelpers.getBotpose_wpiBlue("")
+    LimelightHelpers.Pose3d pose3d = LimelightHelpers.getBotpose_wpiBlue("")
     LimelightHelpers.PoseEstimate tagCount = LimelightHelpers.getBotpose_tagCount("")
 
-    if (poseEstimate != null && tagCount > 0) {
+    if (pose3d != null && tagCount > 0) {
         
         System.out.println(poseEstimate);
+        System.out.println(pose3d);
 
         SmartDashboard.putNumber("Bot Pose X", botPose.getX());
         SmartDashboard.putNumber("Bot Pose Y", botPose.getY());
