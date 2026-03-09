@@ -39,7 +39,7 @@ public class Limelight_LED_Test extends SubsystemBase {
         return DataLoc[1];
     }
 
-    public void robotPeriodic() {
+    public void testkabeer() {
         LimelightHelpers.Pose3d botPose3d = LimelightHelpers.getBotpose_wpiBlue("")
         LimelightHelpers.PoseEstimate tagCount = LimelightHelpers.getBotpose_tagCount("")
     
@@ -56,6 +56,26 @@ public class Limelight_LED_Test extends SubsystemBase {
         }
     }
 //To Here
+
+    public void test() {
+
+        Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue(limelightName);
+    
+        var results = LimelightHelpers.getLatestResults(limelightName).targetingResults;
+        double tagCount = results.targets_Fiducials.length;
+
+        if (results.valid && tagCount > 0) {
+            double x = botPose.getX();
+            double y = botPose.getY();
+
+            System.out.println("Robot X: " + x);
+            System.out.println("Robot Y: " + y);
+            SmartDashboard.putNumber("Bot Pose X", x);
+            SmartDashboard.putNumber("Bot Pose Y", y);
+        } else {
+            System.out.println("Bot Pose: No Tags Seen");
+        }
+    }
 
     
     @Override
