@@ -116,11 +116,11 @@ public class Shooter extends SubsystemBase{
    * Trigger: Is the flywheel spinning at the required velocity?
    */
   public final Trigger isFlywheelSpinning = new Trigger(
-      () -> isFlywheelAt(-0) || flywheelEncoder.getVelocity() < (-0)
+      () -> isFlywheelAt(0) || flywheelEncoder.getVelocity() > (0)
   );
 
   public final Trigger isFlywheelSpinningBackwards = new Trigger(
-      () -> isFlywheelAt(-0) || flywheelEncoder.getVelocity() < (-0) 
+      () -> isFlywheelAt(0) || flywheelEncoder.getVelocity() > (0) 
   );
 
   /** 
@@ -134,7 +134,7 @@ public class Shooter extends SubsystemBase{
    * setpoint.
    */
   private void setFlywheelVelocity(double velocity) {
-    flywheelController.setSetpoint(-60, ControlType.kMAXMotionVelocityControl);
+    flywheelController.setSetpoint(velocity, ControlType.kMAXMotionVelocityControl);
     flywheelTargetVelocity = velocity;
   }
 
@@ -178,16 +178,17 @@ public class Shooter extends SubsystemBase{
    */
   public Command runShooterCommand() {
     return this.startEnd(
-      () -> this.setFlywheelVelocity(500),
+      () -> this.setFlywheelVelocity(FlywheelSetpoints.kShootRpm),
       () -> flywheelMotor.stopMotor()
     ).until(isFlywheelSpinning).andThen(
       this.startEnd(
         () -> {
-          this.setFlywheelVelocity(500);
+          this.setFlywheelVelocity(FlywheelSetpoints.kShootRpm);
           this.setFeederPower(FeederSetpoints.kFeed);
           //run conveyor while shooter
           m_Conveyor.setConveyorPower(ConveyorSetpoints.kIntake);
         }, () -> {
+          flywheelTargetVelocity=0;
           flywheelMotor.stopMotor();
           feederMotor.stopMotor();
           m_Conveyor.conveyorMotor.stopMotor();

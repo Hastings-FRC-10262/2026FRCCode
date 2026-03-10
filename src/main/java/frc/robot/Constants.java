@@ -68,11 +68,11 @@ public final class Constants
     public static final int kFlywheelFollowerMotorCanId = 12;  // SPARK Flex CAN ID (Left)
 
     public static final class FeederSetpoints {
-      public static final double kFeed = 0.80;
+      public static final double kFeed = 0.95;
     }
 
     public static final class FlywheelSetpoints {
-      public static final double kShootRpm = 500;
+      public static final double kShootRpm =70;
       public static final double kVelocityTolerance = 100;
     }
   }

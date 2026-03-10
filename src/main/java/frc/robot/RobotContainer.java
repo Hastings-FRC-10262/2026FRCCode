@@ -35,7 +35,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Leds;
-import frc.robot.subsystems.Limelight_LED_Test;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.PhotoelectricSensor;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -65,7 +65,7 @@ public class RobotContainer
                                                                                 
   private final PhotoelectricSensor sensor = new PhotoelectricSensor(0);
   private final Leds leds = new Leds(1, sensor);
-  //private final Limelight_LED_Test limelight = new Limelight_LED_Test(leds,"limelight-a", 9);
+  private final Limelight limelight = new Limelight(leds,"limelight-a");
 
   private final Conveyor conveyor = new Conveyor();
   private final Shooter shooter = new Shooter(conveyor);
