@@ -1,113 +1,74 @@
 package frc.robot.subsystems.swervedrive;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.Leds;
-import edu.wpi.first.math.geometry.Pose2d;
 
 public class Limelight_LED_Test extends SubsystemBase {
 
-    private final Leds ledstrip;
-    private final String front;
-    private final String back;
-    public double angle;
+    private final Leds ledstrip;
+    private final String limelightName;
+    public double angle;
 
-    public Limelight_LED_Test(Leds led, String front, String back) {
-        this.ledstrip = led;
-        this.front = front;
-        this.back = back;
-        
+    public Limelight_LED_Test(Leds led, String limelightName) {
+        this.ledstrip = led;
+        this.limelightName = limelightName;
 
-        LimelightHelpers.setPipelineIndex(limelightName, 9);
-    }
-    
-    public double getDistance() {
-        return LimelightHelpers
-                .getTargetPose3d_CameraSpace(limelightName)
-                .getZ();
-    }
+        LimelightHelpers.setPipelineIndex(limelightName, 0); 
+    }
 
-    
-//To Here
-    public void getX(String limelightName) {
-        Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue(limelightName);
-        double x = botPose.getX();
-        System.out.println("Robot X: " + x);
-        SmartDashboard.putNumber("Bot Pose X", x);
-        return x
-    }
+    public double getDistance() {
+        return LimelightHelpers.getTargetPose3d_CameraSpace(limelightName).getZ();
+    }
 
-    public void getY(String limelightName) {
-        Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue(limelightName);
-        double y = botPose.getY();
-        System.out.println("Robot Y: " + y);
-        SmartDashboard.putNumber("Bot Pose Y", y); 
-        return y
-    }
-    
-    public void test() {
+    public Pose2d getBotPose() {
+        return LimelightHelpers.getBotPose2d_wpiBlue(limelightName);
+    }
 
-        Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue(limelightName);
-    
-        var results = LimelightHelpers.getLatestResults(limelightName).targetingResults;
-        double tagCount = results.targets_Fiducials.length;
+    public double getX() {
+        Pose2d botPose = getBotPose();
+        double x = botPose.getX();
+        SmartDashboard.putNumber("Bot Pose X", x);
+        return x;
+    }
 
-        if (results.valid && tagCount > 0) {
-            double x = botPose.getX();
-            double y = botPose.getY();
+    public double getY() {
+        Pose2d botPose = getBotPose();
+        double y = botPose.getY();
+        SmartDashboard.putNumber("Bot Pose Y", y);
+        return y;
+    }
 
-            System.out.println("Robot X: " + x);
-            System.out.println("Robot Y: " + y);
-            SmartDashboard.putNumber("Bot Pose X", x);
-            SmartDashboard.putNumber("Bot Pose Y", y);
-        } else {
-            System.out.println("Bot Pose: No Tags Seen");
-        }
-    }
+    @Override
+    public void periodic() {
 
-    
-    @Override
-    public void periodic() {
+        LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(limelightName);
 
-        LimelightHelpers.LimelightResults results =
-                LimelightHelpers.getLatestResults(limelightName);
+        boolean seesAprilTag = results.targetingResults.valid && 
+                               results.targetingResults.targets_Fiducials.length > 0;
 
-        boolean seesAprilTag =
-                results != null &&
-                results.valid &&
-                results.targets_Fiducials != null &&
-                results.targets_Fiducials.length > 0;
+        if (seesAprilTag) {
+            this.angle = LimelightHelpers.getTX(limelightName);
+            double distanceMeters = getDistance();
+            Pose2d botPose = getBotPose();
 
-        if (seesAprilTag) {
+            SmartDashboard.putNumber("Limelight TX", angle);
+            SmartDashboard.putNumber("Limelight Distance", distanceMeters);
+            SmartDashboard.putNumber("Robot X", botPose.getX());
+            SmartDashboard.putNumber("Robot Y", botPose.getY());
 
-            this.angle = LimelightHelpers.getTX(limelightName);
-            double distanceMeters = getDistance();
-            Pose2d botPose = getBotPose();
+            if (distanceMeters <= 1.0) {
+                ledstrip.setYellow(); // Close to target
+            } else {
+                ledstrip.setWhite();  // Tracking target but far
+            }  
+            LimelightHelpers.setLEDMode_ForceOn(limelightName);
 
-            System.out.println("AprilTag seen");
-            System.out.println("Robot X: " + botPose.getX());
-            System.out.println("Robot Y: " + botPose.getY());
-            System.out.println("Robot Heading: " + botPose.getRotation().getDegrees());
-            System.out.println("Camera Angle TX: " + angle);
-            System.out.println("Distance (m): " + distanceMeters);
-
-            if (distanceMeters <= 1.0) {
-                ledstrip.setYellow();
-            } 
-            else {
-                ledstrip.setWhite();
-            }
-
-            LimelightHelpers.setLEDMode_ForceOn(limelightName);
-
-        } else {
-
-            System.out.println("AprilTag NOT seen");
-
-            ledstrip.setOrange();
-            LimelightHelpers.setLEDMode_ForceOff(limelightName);
-        }
-    }
+        } else {
+            ledstrip.setOrange();
+            LimelightHelpers.setLEDMode_ForceOff(limelightName);
+        }
+    }
 }
