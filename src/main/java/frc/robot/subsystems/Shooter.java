@@ -176,17 +176,36 @@ public class Shooter extends SubsystemBase{
    * Meta-command to operate the shooter. The Flywheel starts spinning up and when it reaches
    * the desired speed it starts the Feeder.
    */
-  public Command runShooterCommand() {
+  public Command runShooterCommand(Double speed) {
     return this.startEnd(
-      () -> this.setFlywheelVelocity(FlywheelSetpoints.kShootRpm),
+      () -> this.setFlywheelVelocity(speed),
       () -> flywheelMotor.stopMotor()
     ).until(isFlywheelSpinning).andThen(
       this.startEnd(
         () -> {
-          this.setFlywheelVelocity(FlywheelSetpoints.kShootRpm);
+          this.setFlywheelVelocity(speed);
           this.setFeederPower(FeederSetpoints.kFeed);
           //run conveyor while shooter
           m_Conveyor.setConveyorPower(ConveyorSetpoints.kIntake);
+        }, () -> {
+          flywheelTargetVelocity=0;
+          flywheelMotor.stopMotor();
+          feederMotor.stopMotor();
+          m_Conveyor.conveyorMotor.stopMotor();
+        })
+    ).withName("Shooting");
+  }
+  public Command runShooteraltCommand(Double speed) {
+    return this.startEnd(
+      () -> this.setFlywheelVelocity(speed),
+      () -> flywheelMotor.stopMotor()
+    ).until(isFlywheelSpinning).andThen(
+      this.startEnd(
+        () -> {
+          this.setFlywheelVelocity(speed);
+          this.setFeederPower(FeederSetpoints.kFeed);
+          //run conveyor while shooter
+          m_Conveyor.alternateConveyorPower(ConveyorSetpoints.kIntake,ConveyorSetpoints.Time);
         }, () -> {
           flywheelTargetVelocity=0;
           flywheelMotor.stopMotor();

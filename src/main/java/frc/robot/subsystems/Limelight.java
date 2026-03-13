@@ -54,7 +54,7 @@ public class Limelight extends SubsystemBase {
 
         } else {
 
-            System.out.println("AprilTag NOT seen");
+            //System.out.println("AprilTag NOT seen");
 
             ledstrip.setOrange();
             LimelightHelpers.setLEDMode_ForceOff(limelightName);

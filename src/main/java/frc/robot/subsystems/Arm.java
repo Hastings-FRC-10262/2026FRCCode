@@ -23,6 +23,7 @@ public class Arm extends SubsystemBase {
         ArmMotor = new SparkFlex(ArmSubsystemConstants.kArmMotorCanId, MotorType.kBrushless);
         ArmMotor.configure(Configs.IntakeSubsystem.intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         absoluteecoder=ArmMotor.getAbsoluteEncoder();
+        armPID = new PIDController(ArmSubsystemConstants.armkP, ArmSubsystemConstants.armkI, ArmSubsystemConstants.armkD);
         armPID.setTolerance(ArmSubsystemConstants.armTolerance);
     } 
     public Command Movearm(Double position) {

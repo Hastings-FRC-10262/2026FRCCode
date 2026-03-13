@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ShooterSubsystemConstants.FlywheelSetpoints;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Intake;
@@ -138,6 +139,8 @@ public class RobotContainer
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+    NamedCommands.registerCommand("intake", Commands.print("I EXIST"));
+    NamedCommands.registerCommand("shooter", Commands.print("I EXIST"));
   }
 
   /**
@@ -210,7 +213,7 @@ public class RobotContainer
 
       driverXbox.back().whileTrue(Commands.none());
       driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
-      driverXbox.leftTrigger().whileTrue(shooter.runShooterCommand());
+      driverXbox.leftTrigger().whileTrue(shooter.runShooterCommand(FlywheelSetpoints.kShootRpm));
       driverXbox.x().whileTrue(intake.runExtakeCommand());
       //driverXbox.y().onTrue(arm.);
     }
@@ -223,7 +226,7 @@ public class RobotContainer
    * @return the command to run in autonomous
    */ 
   private void configureAutos() {
-    m_chooser.setDefaultOption("Taxy","Test");
+    m_chooser.setDefaultOption("ShooterLeft","ShooterLeft");
     m_chooser.addOption("Curvy", "Curvy");
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);

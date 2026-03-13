@@ -113,7 +113,7 @@ public class SwerveSubsystem extends SubsystemBase
   public void periodic()
   {
     // When vision is enabled we must manually update odometry in SwerveDrive
-
+    SmartDashboard.putNumber("odometry", 3);
   }
 
   @Override
@@ -666,4 +666,5 @@ public class SwerveSubsystem extends SubsystemBase
   {
     return swerveDrive;
   }
+  
 }
