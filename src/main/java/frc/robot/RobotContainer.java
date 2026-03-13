@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.IntakeSubsystemConstants.ConveyorSetpoints;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ShooterSubsystemConstants.FlywheelSetpoints;
 import frc.robot.subsystems.Arm;
@@ -139,8 +140,8 @@ public class RobotContainer
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("intake", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("shooter", Commands.print("I EXIST"));
+    NamedCommands.registerCommand("intake", intake.runIntakeCommand());
+    NamedCommands.registerCommand("shooter", shooter.runShooterCommand(40.0));
   }
 
   /**
@@ -208,14 +209,14 @@ public class RobotContainer
       driverXbox.rightBumper().onTrue(Commands.none());
     } else
     {
-      
-      //driverXbox.b().whileTrue(drivebase.centerModulesCommand());
-
       driverXbox.back().whileTrue(Commands.none());
       driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
-      driverXbox.leftTrigger().whileTrue(shooter.runShooterCommand(FlywheelSetpoints.kShootRpm));
-      driverXbox.x().whileTrue(intake.runExtakeCommand());
-      //driverXbox.y().onTrue(arm.);
+      driverXbox.leftBumper().whileTrue(intake.runExtakeCommand());
+      driverXbox.a().whileTrue(shooter.runShooterCommand(20.0));
+      driverXbox.b().whileTrue(shooter.runShooterCommand(30.0));
+      driverXbox.y().whileTrue(shooter.runShooterCommand(40.0));
+      driverXbox.x().whileTrue(conveyor.MoveConveyor(30.0));
+      driverXbox.rightTrigger().whileTrue(conveyor.alternateConveyorPower(ConveyorSetpoints.kIntake,ConveyorSetpoints.Time));
     }
 
   }

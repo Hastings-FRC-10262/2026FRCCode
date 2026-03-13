@@ -34,6 +34,14 @@ public class Conveyor extends SubsystemBase {
     public void setConveyorPower(Double power) {
         conveyorMotor.set(power);
     }
+    public Command MoveConveyor(double speed) {
+        return this.startEnd(
+            () -> {
+                this.setConveyorPower(-24.0);
+            },  () -> {
+                this.setConveyorPower(0.0);
+            }).withName("conveyoring beackwards :)");
+    }
     public Command alternateConveyorPower(Double power, Double time) {
         return Commands.repeatingSequence(
             this.runOnce(() -> {
