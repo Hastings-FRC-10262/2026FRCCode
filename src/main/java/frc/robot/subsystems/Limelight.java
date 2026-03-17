@@ -36,9 +36,7 @@ public class Limelight extends SubsystemBase {
 
         boolean seesAprilTag =
                 results != null &&
-                results.valid &&
-                results.targets_Fiducials != null &&
-                results.targets_Fiducials.length > 0;
+                results.valid;
 
         if (seesAprilTag) {
 

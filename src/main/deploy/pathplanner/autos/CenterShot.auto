@@ -5,27 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Arm"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "GoToBoth"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GotoShoot"
+            "pathName": "CenterShot"
           }
         },
         {
@@ -35,19 +17,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 7.25
+                  "waitTime": 10.0
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "shooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
                 }
               }
             ]

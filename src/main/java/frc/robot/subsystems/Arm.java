@@ -3,6 +3,7 @@ import edu.wpi.first.math.MathUtil;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.*;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.math.controller.PIDController;
@@ -16,13 +17,13 @@ import frc.robot.Constants.IntakeSubsystemConstants.IntakeSetpoints;
 public class Arm extends SubsystemBase {
     boolean IsArmDown;
     SparkFlex ArmMotor;
-    AbsoluteEncoder absoluteecoder;
+    RelativeEncoder encoder;
     PIDController armPID;
     public Arm() {
         IsArmDown=false;
         ArmMotor = new SparkFlex(ArmSubsystemConstants.kArmMotorCanId, MotorType.kBrushless);
         ArmMotor.configure(Configs.IntakeSubsystem.intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        absoluteecoder=ArmMotor.getAbsoluteEncoder();
+        encoder = ArmMotor.getEncoder();
         armPID = new PIDController(ArmSubsystemConstants.armkP, ArmSubsystemConstants.armkI, ArmSubsystemConstants.armkD);
         armPID.setTolerance(ArmSubsystemConstants.armTolerance);
     } 
@@ -34,7 +35,7 @@ public class Arm extends SubsystemBase {
           Double target = MathUtil.clamp(position, ArmSubsystemConstants.armFrontLimit, ArmSubsystemConstants.armRearLimit);
 
           // Calculate the PID result, and clamp to the arm's maximum velocity limit.
-          Double result =  MathUtil.clamp(armPID.calculate(absoluteecoder.getPosition(), target), -1 * ArmSubsystemConstants.armVelocityLimit, ArmSubsystemConstants.armVelocityLimit);
+          Double result =  MathUtil.clamp(armPID.calculate(encoder.getPosition(), target), -1 * ArmSubsystemConstants.armVelocityLimit, ArmSubsystemConstants.armVelocityLimit);
 
           ArmMotor.set(result);
 
@@ -42,7 +43,7 @@ public class Arm extends SubsystemBase {
         }).until(() -> armPID.atSetpoint());
     }
     public void periodic() {
-        SmartDashboard.putNumber("arm encoder", absoluteecoder.getPosition());
+        SmartDashboard.putNumber("arm encoder", encoder.getPosition());
         SmartDashboard.putNumber("setpoint", armPID.getSetpoint());
     }
 }

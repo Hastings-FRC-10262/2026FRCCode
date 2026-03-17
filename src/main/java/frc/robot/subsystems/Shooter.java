@@ -183,11 +183,13 @@ public class Shooter extends SubsystemBase{
     ).until(isFlywheelSpinning).andThen(
       this.startEnd(
         () -> {
+          System.out.println("Shooter");
           this.setFlywheelVelocity(speed);
           this.setFeederPower(FeederSetpoints.kFeed);
           //run conveyor while shooter
           m_Conveyor.setConveyorPower(ConveyorSetpoints.kIntake);
         }, () -> {
+          System.out.println("Shooter");
           flywheelTargetVelocity=0;
           flywheelMotor.stopMotor();
           feederMotor.stopMotor();

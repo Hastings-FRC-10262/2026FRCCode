@@ -40,13 +40,13 @@ public final class Constants
   }
   public static final class ArmSubsystemConstants{
     public static final int kArmMotorCanId = 15;
-    public static final int armTolerance =0;//change these constants
-    public static final int armFrontLimit =0;//change these constants\
-    public static final int armRearLimit=0;//change these constants
-    public static final int armVelocityLimit=0;//change these constants
-    public static final int armkP=0;//change these constants
-    public static final int armkI=0;//change these constants
-    public static final int armkD=0;//change these constants
+    public static final double armTolerance =2;//change these constants
+    public static final double armFrontLimit =14.21;//change these constants\
+    public static final double armRearLimit=0;//change these constants
+    public static final double armVelocityLimit=3;//change these constants
+    public static final double armkP=.0075;//change these constants
+    public static final double armkI=0;//change these constants
+    public static final double armkD=0;//change these constants
     
   }
   public static final class IntakeSubsystemConstants {
@@ -55,8 +55,8 @@ public final class Constants
     
 
     public static final class IntakeSetpoints {
-      public static final double kIntake = -0.4;
-      public static final double kExtake = 0.4;
+      public static final double kIntake = -0.45;
+      public static final double kExtake = 0.6;
     }
 
     public static final class ConveyorSetpoints {
