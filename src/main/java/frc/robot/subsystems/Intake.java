@@ -42,10 +42,10 @@ public class Intake extends SubsystemBase {
 
     //ALL COMMANDS SHOULD BE RUN ON M_CONVEYOR NOT CONVEYOR beacause i said so
 
-    public Command runIntakeCommand() {
+    public Command runIntakeCommand(double SPEED) {
         return this.startEnd(
             () -> {
-                this.setIntakePower(IntakeSetpoints.kIntake);
+                this.setIntakePower(SPEED);
                 m_conveyor.setConveyorPower(ConveyorSetpoints.kIntake);
             }, () -> {
                 this.setIntakePower(0.0);

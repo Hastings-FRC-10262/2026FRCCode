@@ -67,7 +67,7 @@ public class RobotContainer
                                                                                 
   private final PhotoelectricSensor sensor = new PhotoelectricSensor(0);
   private final Leds leds = new Leds(1, sensor);
-  private final Limelight limelight = new Limelight(leds,"limelight-a");
+  //private final Limelight limelight = new Limelight(leds,"limelight-a");
 
   private final Conveyor conveyor = new Conveyor();
   private final Shooter shooter = new Shooter(conveyor);
@@ -140,8 +140,8 @@ public class RobotContainer
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("intake", intake.runIntakeCommand());
-    NamedCommands.registerCommand("shooter", (shooter.runShooterCommand(50.0)));
+    NamedCommands.registerCommand("intake", intake.runIntakeCommand(-.60));
+    NamedCommands.registerCommand("shooter", (shooter.runShooterCommand(40.0)));
     NamedCommands.registerCommand("Arm",arm.Movearm(-3.0));
   }
 
@@ -210,8 +210,8 @@ public class RobotContainer
       driverXbox.rightBumper().onTrue(Commands.none());
     } else
     {
-      driverXbox.back().whileTrue(Commands.none());
-      driverXbox.rightBumper().whileTrue(intake.runIntakeCommand());
+      driverXbox.back().whileTrue(intake.runIntakeCommand(-1.0));
+      driverXbox.rightBumper().whileTrue(intake.runIntakeCommand(-1.0));
       driverXbox.leftBumper().whileTrue(intake.runExtakeCommand());
       driverXbox.a().whileTrue(shooter.runShooterCommand(40.0));
       driverXbox.b().whileTrue(shooter.runShooterCommand(50.0));
@@ -230,8 +230,9 @@ public class RobotContainer
    * @return the command to run in autonomous
    */ 
   private void configureAutos() {
-    m_chooser.setDefaultOption("AutoBack","New Auto");
+    m_chooser.setDefaultOption("Stockpile","Stockpile");
     m_chooser.addOption("ShooterLeft", "ShooterLeft");
+    m_chooser.addOption("Depo", "Depo");
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);

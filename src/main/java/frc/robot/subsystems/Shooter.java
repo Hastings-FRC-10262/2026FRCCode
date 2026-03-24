@@ -40,6 +40,7 @@ public class Shooter extends SubsystemBase{
   private SparkFlex feederMotor = new SparkFlex(ShooterSubsystemConstants.kFeederMotorCanId, MotorType.kBrushless);
   private RelativeEncoder feederMotorEncoder = feederMotor.getEncoder();
   private Conveyor m_Conveyor;
+  private double wantedVelocity;
 
   public Shooter(Conveyor conveyor) {
     m_Conveyor = conveyor;
@@ -183,13 +184,13 @@ public class Shooter extends SubsystemBase{
     ).until(isFlywheelSpinning).andThen(
       this.startEnd(
         () -> {
-          System.out.println("Shooter");
+          //velocityWanted=speed;
           this.setFlywheelVelocity(speed);
           this.setFeederPower(FeederSetpoints.kFeed);
           //run conveyor while shooter
           m_Conveyor.setConveyorPower(ConveyorSetpoints.kIntake);
         }, () -> {
-          System.out.println("Shooter");
+          //velocityWanted=0;
           flywheelTargetVelocity=0;
           flywheelMotor.stopMotor();
           feederMotor.stopMotor();

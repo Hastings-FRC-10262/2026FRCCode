@@ -55,13 +55,13 @@ public final class Constants
     
 
     public static final class IntakeSetpoints {
-      public static final double kIntake = -0.45;
+      public static final double kIntake = -0.8;
       public static final double kExtake = 0.6;
     }
 
     public static final class ConveyorSetpoints {
-      public static final double kIntake = 0.3;
-      public static final double kExtake = -0.3;
+      public static final double kIntake = 0.4;
+      public static final double kExtake = -0.4;
       public static final double Time = 0.7;//change these constants
     }
   }
@@ -72,7 +72,7 @@ public final class Constants
     public static final int kFlywheelFollowerMotorCanId = 12;  // SPARK Flex CAN ID (Left)
 
     public static final class FeederSetpoints {
-      public static final double kFeed = 0.95;
+      public static final double kFeed = 1.0;
     }
 
     public static final class FlywheelSetpoints {

@@ -13,44 +13,38 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GoToBoth"
+            "pathName": "preDepot"
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GotoShoot"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 7.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooter"
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "intake"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Depot"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DepotToshoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shooter"
           }
         }
       ]

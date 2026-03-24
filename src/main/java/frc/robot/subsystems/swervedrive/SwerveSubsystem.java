@@ -33,6 +33,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -146,21 +148,21 @@ public class SwerveSubsystem extends SubsystemBase
             if (enableFeedforward)
             {
               swerveDrive.drive(
-                  speedsRobotRelative,
-                  swerveDrive.kinematics.toSwerveModuleStates(speedsRobotRelative),
+                  new ChassisSpeeds(speedsRobotRelative.vxMetersPerSecond, speedsRobotRelative.vyMetersPerSecond, -speedsRobotRelative.omegaRadiansPerSecond), // speedsRobotRelative,
+                  swerveDrive.kinematics.toSwerveModuleStates(new ChassisSpeeds(speedsRobotRelative.vxMetersPerSecond, speedsRobotRelative.vyMetersPerSecond, -speedsRobotRelative.omegaRadiansPerSecond)),//speedsRobotRelative),
                   moduleFeedForwards.linearForces()
                                );
             } else
             {
-              swerveDrive.setChassisSpeeds(speedsRobotRelative);
+              swerveDrive.setChassisSpeeds(new ChassisSpeeds(speedsRobotRelative.vxMetersPerSecond, speedsRobotRelative.vyMetersPerSecond, -speedsRobotRelative.omegaRadiansPerSecond));//speedsRobotRelative);
             }
           },
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
-              new PIDConstants(0.0, 0.0, 0.0),
+              new PIDConstants(0.6, 0.0, 0.0),
               // Translation PID constants
-              new PIDConstants(0.0, 0.0, 0.0)
+              new PIDConstants(0.6, 0.0, 0.0)
               // Rotation PID constants
           ),
           config,

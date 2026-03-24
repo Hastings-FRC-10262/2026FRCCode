@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 3.5574733096085422,
-        "y": 0.8879359430604985
+        "y": 7.128268090154211
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6807066429418756,
-        "y": 0.8929210359826028
+        "x": 1.5239857651245559,
+        "y": 7.052953736654803
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.545504151838672,
-        "y": 0.8879359430604985
+        "x": 1.857520759193358,
+        "y": 6.934602609727165
       },
       "prevControl": {
-        "x": 2.5896449260011307,
-        "y": 0.8879359430604985
+        "x": 2.944199288256229,
+        "y": 7.149786476868328
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "PickUpBalls"
+      "linkedName": "preDepot"
     }
   ],
   "rotationTargets": [],
@@ -33,10 +33,10 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 5.0,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 180.0,
-    "maxAngularAcceleration": 360.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -50,5 +50,5 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.002614457831324,
-        "y": 2.4176987951807236
+        "x": 7.64596678529063,
+        "y": 2.6954804270462636
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6094457831325304,
-        "y": 2.242855421686746
+        "x": 4.116951364175564,
+        "y": 1.9853736654804255
       },
       "isLocked": false,
-      "linkedName": "SetupShooterRight"
+      "linkedName": "CollectballsLeft"
     },
     {
       "anchor": {
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 1.0,
-    "rotation": -168.69006752597974
+    "rotation": -126.86989764584415
   },
   "useDefaultConstraints": true
 }
