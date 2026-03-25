@@ -40,7 +40,7 @@ public class Arm extends SubsystemBase {
           ArmMotor.set(result);
 
           
-        }).until(() -> armPID.atSetpoint());
+        }).until(()->armPID.atSetpoint());
     }
     public void periodic() {
         SmartDashboard.putNumber("arm encoder", encoder.getPosition());

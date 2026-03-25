@@ -40,9 +40,9 @@ public final class Constants
   }
   public static final class ArmSubsystemConstants{
     public static final int kArmMotorCanId = 15;
-    public static final double armTolerance =2;//change these constants
-    public static final double armFrontLimit =14.21;//change these constants\
-    public static final double armRearLimit=0;//change these constants
+    public static final double armTolerance =14;//change these constants
+    public static final double armFrontLimit =0;//change these constants\
+    public static final double armRearLimit=14.21;//change these constants
     public static final double armVelocityLimit=3;//change these constants
     public static final double armkP=.0075;//change these constants
     public static final double armkI=0;//change these constants

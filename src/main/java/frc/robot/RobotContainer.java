@@ -218,7 +218,7 @@ public class RobotContainer
       driverXbox.y().whileTrue(shooter.runShooterCommand(60.0));
       driverXbox.x().whileTrue(conveyor.MoveConveyor(30.0));
       driverXbox.rightTrigger().whileTrue(conveyor.alternateConveyorPower(ConveyorSetpoints.kIntake,ConveyorSetpoints.Time));
-      driverXbox.leftTrigger().whileTrue(arm.Movearm(0.0));
+      driverXbox.leftTrigger().whileTrue(arm.Movearm(14.0));
       driverXbox.start().whileTrue(conveyor.alternateConveyorPower(0.3,1.0));
     }
 

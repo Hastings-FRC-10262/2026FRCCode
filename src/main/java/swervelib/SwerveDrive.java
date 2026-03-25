@@ -13,6 +13,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -44,6 +45,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.LimelightHelpers;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1167,6 +1170,7 @@ public class SwerveDrive implements AutoCloseable
    */
   public void updateOdometry()
   {
+    System.out.println("updating odom");
     SwerveDriveTelemetry.startOdomCycle();
     odometryLock.lock();
 //    invalidateCache();
@@ -1174,6 +1178,37 @@ public class SwerveDrive implements AutoCloseable
     {
       // Update odometry
       swerveDrivePoseEstimator.update(getYaw(), getModulePositions());
+      
+      boolean doRejectUpdate = false;
+
+      LimelightHelpers.SetRobotOrientation(
+        "limelight-a",
+        swerveDrivePoseEstimator.getEstimatedPosition().getRotation().getDegrees(),
+        0, 0, 0, 0, 0);
+
+      LimelightHelpers.PoseEstimate mt2 =
+        LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-a");
+
+      if (Math.abs(getRobotVelocity().omegaRadiansPerSecond) > Math.toRadians(720))
+      {
+        doRejectUpdate = true;
+      }
+        if (mt2.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
+
+      if (!doRejectUpdate)
+      {
+
+        System.out.println("limelight updating field pose!!!1");
+        swerveDrivePoseEstimator.setVisionMeasurementStdDevs(
+          VecBuilder.fill(.7, .7, 9999999));
+
+        swerveDrivePoseEstimator.addVisionMeasurement(
+          mt2.pose,
+          mt2.timestampSeconds);
+      }
 
       if (SwerveDriveTelemetry.isSimulation)
       {
