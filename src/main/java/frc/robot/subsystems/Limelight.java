@@ -30,14 +30,14 @@ public class Limelight_LED_Test extends SubsystemBase {
     public double getX() {
         Pose2d botPose = getBotPose();
         double x = botPose.getX();
-        SmartDashboard.putNumber("Bot Pose X", x);
+        SmartDashboard.putNumber("Robot X", x);
         return x;
     }
 
     public double getY() {
         Pose2d botPose = getBotPose();
         double y = botPose.getY();
-        SmartDashboard.putNumber("Bot Pose Y", y);
+        SmartDashboard.putNumber("Robot Y", y);
         return y;
     }
 
@@ -55,8 +55,8 @@ public class Limelight_LED_Test extends SubsystemBase {
 
             SmartDashboard.putNumber("Limelight TX", angle);
             SmartDashboard.putNumber("Limelight Distance", distanceMeters);
-            SmartDashboard.putNumber("Robot X", botPose.getX());
-            SmartDashboard.putNumber("Robot Y", botPose.getY());
+            botPose.getX();
+            botPose.getY();
 
             if (distanceMeters <= 1.0) {
                 ledstrip.setYellow(); // Close to target
