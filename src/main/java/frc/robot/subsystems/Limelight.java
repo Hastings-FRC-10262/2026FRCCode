@@ -41,15 +41,14 @@ public class Limelight_LED_Test extends SubsystemBase {
         return y;
     }
 
-    @Override
-    public void periodic() {
+
+    public void robotPeriodic() {
 
         LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(limelightName);
 
-        boolean seesAprilTag = results.targetingResults.valid && 
-                               results.targetingResults.targets_Fiducials.length > 0;
+        LimelightHelpers.PoseEstimate tagCount = LimelightHelpers.getBotpose_tagCount("")
 
-        if (seesAprilTag) {
+        if (tagcount > 0) {
             this.angle = LimelightHelpers.getTX(limelightName);
             double distanceMeters = getDistance();
             Pose2d botPose = getBotPose();
