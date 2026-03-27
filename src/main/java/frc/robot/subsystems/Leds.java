@@ -9,10 +9,13 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 public class Leds extends SubsystemBase {
     private final Spark m_Led;
     private final PhotoelectricSensor sensor;
-
-    public Leds(int ledPin, PhotoelectricSensor sensor) {
+    private Intake intake;
+    private Shooter shooter;
+    public Leds(int ledPin, PhotoelectricSensor sensor,Shooter shooter, Intake intake) {
         this.m_Led = new Spark(ledPin);
         this.sensor = sensor;
+        this.intake=intake;
+        this.shooter=shooter;
     }
     public void setGreen() {
         m_Led.set(0.77);
@@ -52,16 +55,12 @@ public class Leds extends SubsystemBase {
     }
     @Override
     public void periodic(){
-        if (sensor.isTripped()){
-            //setGreen();
-            
-            ;
-        }else if(DriverStation.isDisabled()){
-            //setRainbow();
-            ;
+        if (shooter.FlywheelSpinning()){
+            setRed();  
+        // }else if(intake.isIntakeRunning()){
+        //     setGreen();
         }else{
-            //setRed();
-            ;
+            setWhite();
         }
     }
 

@@ -66,13 +66,14 @@ public class RobotContainer
                                                                                 "swerve"));
                                                                                 
   private final PhotoelectricSensor sensor = new PhotoelectricSensor(0);
-  private final Leds leds = new Leds(1, sensor);
+  
   //private final Limelight limelight = new Limelight(leds,"limelight-a");
-
+  
   private final Conveyor conveyor = new Conveyor();
   private final Shooter shooter = new Shooter(conveyor);
   private final Intake intake = new Intake(conveyor);
   private final Arm arm= new Arm();
+  private final Leds leds = new Leds(1, sensor,shooter,intake);
 
 
   
@@ -143,6 +144,7 @@ public class RobotContainer
     NamedCommands.registerCommand("intake", intake.runIntakeCommand(-.60));
     NamedCommands.registerCommand("shooter", (shooter.runShooterCommand(40.0)));
     NamedCommands.registerCommand("Arm",arm.Movearm(-3.0));
+    
   }
 
   /**
@@ -210,17 +212,17 @@ public class RobotContainer
       driverXbox.rightBumper().onTrue(Commands.none());
     } else
     {
-      driverXbox.back().whileTrue(intake.runIntakeCommand(-1.0));
-      driverXbox.rightBumper().whileTrue(intake.runIntakeCommand(-1.0));
+      driverXbox.back().whileTrue(intake.runIntakeCommand(-.80));
+      driverXbox.rightBumper().whileTrue(intake.runIntakeCommand(-.60));
       driverXbox.leftBumper().whileTrue(intake.runExtakeCommand());
-      driverXbox.a().whileTrue(shooter.runShooterCommand(40.0));
-      driverXbox.b().whileTrue(shooter.runShooterCommand(50.0));
+      driverXbox.a().whileTrue(shooter.runShooterCommand(25.0));
+      driverXbox.b().whileTrue(shooter.runShooterCommand(40.0));
       driverXbox.y().whileTrue(shooter.runShooterCommand(60.0));
       driverXbox.x().whileTrue(conveyor.MoveConveyor(30.0));
-      driverXbox.rightTrigger().whileTrue(conveyor.alternateConveyorPower(ConveyorSetpoints.kIntake,ConveyorSetpoints.Time));
       driverXbox.leftTrigger().whileTrue(arm.Movearm(14.0));
+      driverXbox.rightTrigger().whileTrue(arm.Movearm(0.0));
       driverXbox.start().whileTrue(conveyor.alternateConveyorPower(0.3,1.0));
-    }
+    } 
 
   }
 

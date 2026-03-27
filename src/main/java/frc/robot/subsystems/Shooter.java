@@ -40,11 +40,10 @@ public class Shooter extends SubsystemBase{
   private SparkFlex feederMotor = new SparkFlex(ShooterSubsystemConstants.kFeederMotorCanId, MotorType.kBrushless);
   private RelativeEncoder feederMotorEncoder = feederMotor.getEncoder();
   private Conveyor m_Conveyor;
-  private double wantedVelocity;
+  private double wantedVelocity=500;
 
   public Shooter(Conveyor conveyor) {
     m_Conveyor = conveyor;
-    
     final double nominalVoltage = 12.0;
 
     final SparkFlexConfig flywheelConfig = new SparkFlexConfig();
@@ -117,11 +116,11 @@ public class Shooter extends SubsystemBase{
    * Trigger: Is the flywheel spinning at the required velocity?
    */
   public final Trigger isFlywheelSpinning = new Trigger(
-      () -> isFlywheelAt(0) || flywheelEncoder.getVelocity() > (0)
+      () -> isFlywheelAt(wantedVelocity) || flywheelEncoder.getVelocity() > (wantedVelocity)
   );
 
   public final Trigger isFlywheelSpinningBackwards = new Trigger(
-      () -> isFlywheelAt(0) || flywheelEncoder.getVelocity() > (0) 
+      () -> isFlywheelAt(wantedVelocity) || flywheelEncoder.getVelocity() > (wantedVelocity) 
   );
 
   /** 
@@ -138,7 +137,9 @@ public class Shooter extends SubsystemBase{
     flywheelController.setSetpoint(velocity, ControlType.kMAXMotionVelocityControl);
     flywheelTargetVelocity = velocity;
   }
-
+  public boolean FlywheelSpinning(){
+    return flywheelEncoder.getVelocity() > (0)||flywheelEncoder.getVelocity() == (0);
+  }
   /** Set the feeder motor power in the range of [-1, 1]. */
   private void setFeederPower(double power) {
     feederMotor.set(power);
@@ -179,19 +180,21 @@ public class Shooter extends SubsystemBase{
    */
   public Command runShooterCommand(Double speed) {
     return this.startEnd(
-      () -> this.setFlywheelVelocity(speed),
+      () -> {
+        wantedVelocity=speed*60;
+        this.setFlywheelVelocity(speed);
+            },
       () -> flywheelMotor.stopMotor()
+
     ).until(isFlywheelSpinning).andThen(
       this.startEnd(
         () -> {
-          //velocityWanted=speed;
           this.setFlywheelVelocity(speed);
           this.setFeederPower(FeederSetpoints.kFeed);
           //run conveyor while shooter
           m_Conveyor.setConveyorPower(ConveyorSetpoints.kIntake);
         }, () -> {
           //velocityWanted=0;
-          flywheelTargetVelocity=0;
           flywheelMotor.stopMotor();
           feederMotor.stopMotor();
           m_Conveyor.conveyorMotor.stopMotor();
@@ -208,6 +211,7 @@ public class Shooter extends SubsystemBase{
           this.setFlywheelVelocity(speed);
           this.setFeederPower(FeederSetpoints.kFeed);
           //run conveyor while shooter
+          wantedVelocity=speed*60;
           m_Conveyor.alternateConveyorPower(ConveyorSetpoints.kIntake,ConveyorSetpoints.Time);
         }, () -> {
           flywheelTargetVelocity=0;
@@ -220,6 +224,7 @@ public class Shooter extends SubsystemBase{
   @Override
   public void periodic() {
         SmartDashboard.putNumber("Shooter | Flywheel | Target Velocity", flywheelTargetVelocity);
+        SmartDashboard.putNumber("flywheel", flywheelTargetVelocity);
         SmartDashboard.putNumber("Shooter | Flywheel | Actual Velocity", flywheelEncoder.getVelocity());
         SmartDashboard.putNumber("feederEncoder", feederMotorEncoder.getVelocity());
     }

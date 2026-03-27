@@ -41,13 +41,16 @@ public class Intake extends SubsystemBase {
     //rember its power not veolicty lock in
 
     //ALL COMMANDS SHOULD BE RUN ON M_CONVEYOR NOT CONVEYOR beacause i said so
-
+    // public boolean isIntakeRunning(){
+    //     return encoder.getVelocity()>1;
+    // }
     public Command runIntakeCommand(double SPEED) {
         return this.startEnd(
             () -> {
                 this.setIntakePower(SPEED);
                 m_conveyor.setConveyorPower(ConveyorSetpoints.kIntake);
             }, () -> {
+
                 this.setIntakePower(0.0);
                 m_conveyor.setConveyorPower(0.0);
             }).withName("Intaking");
@@ -85,6 +88,7 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         //pollute smart dashboard even more
+        //SmartDashboard.putNumber("IntakeMotorEncoder", encoder.getVelocity());
         SmartDashboard.putNumber("Intake | Intake | Applied Output", IntakeMotor.getAppliedOutput());
     }
 }

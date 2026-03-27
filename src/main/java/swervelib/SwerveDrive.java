@@ -1189,6 +1189,7 @@ public class SwerveDrive implements AutoCloseable
       LimelightHelpers.PoseEstimate mt2 =
         LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-a");
 
+      LimelightHelpers.SetIMUMode("limelight-a", 2);
       if (Math.abs(getRobotVelocity().omegaRadiansPerSecond) > Math.toRadians(720))
       {
         doRejectUpdate = true;
@@ -1198,8 +1199,8 @@ public class SwerveDrive implements AutoCloseable
         doRejectUpdate = true;
       }
 
-      if (!doRejectUpdate)
-      {
+      //if (!doRejectUpdate)
+      //{
 
         System.out.println("limelight updating field pose!!!1");
         swerveDrivePoseEstimator.setVisionMeasurementStdDevs(
@@ -1208,7 +1209,7 @@ public class SwerveDrive implements AutoCloseable
         swerveDrivePoseEstimator.addVisionMeasurement(
           mt2.pose,
           mt2.timestampSeconds);
-      }
+      //}
 
       if (SwerveDriveTelemetry.isSimulation)
       {
@@ -1238,6 +1239,7 @@ public class SwerveDrive implements AutoCloseable
 
         } else
         {
+          
           field.setRobotPose(swerveDrivePoseEstimator.getEstimatedPosition());
         }
       }
@@ -1646,4 +1648,7 @@ public class SwerveDrive implements AutoCloseable
     }
     return kinematics.toSwerveModuleStates(robotRelativeVelocity);
   }
+  
+
+
 }
