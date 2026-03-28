@@ -1177,16 +1177,23 @@ public class SwerveDrive implements AutoCloseable
     {
       // Update odometry
       swerveDrivePoseEstimator.update(getYaw(), getModulePositions());
-
+      boolean doRejectUpdate = false;
       //LIMELIGHT SECTION NOT WORKING
       LimelightHelpers.SetRobotOrientation("limelight-a", swerveDrivePoseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-a");
 
 
-      swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-      swerveDrivePoseEstimator.addVisionMeasurement(
+      if(mt2.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
+      if(!doRejectUpdate)
+      {
+        swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        swerveDrivePoseEstimator.addVisionMeasurement(
             mt2.pose,
             mt2.timestampSeconds);
+      }
 
       //swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
       //swerveDrivePoseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
