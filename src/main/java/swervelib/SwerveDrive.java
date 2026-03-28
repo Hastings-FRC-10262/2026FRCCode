@@ -1178,38 +1178,19 @@ public class SwerveDrive implements AutoCloseable
       // Update odometry
       swerveDrivePoseEstimator.update(getYaw(), getModulePositions());
 
-      //THIS LIMELIGHT CODE DOES NOT WORK---------------------------------------------------------------
-      boolean doRejectUpdate = false;
+      //LIMELIGHT SECTION NOT WORKING
+      LimelightHelpers.SetRobotOrientation("limelight-a", swerveDrivePoseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+
+
+      swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+      swerveDrivePoseEstimator.addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+
+      //swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+      //swerveDrivePoseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
       
-      LimelightHelpers.SetRobotOrientation(
-        "limelight-a",
-        swerveDrivePoseEstimator.getEstimatedPosition().getRotation().getDegrees(),
-        0, 0, 0, 0, 0);
-
-      LimelightHelpers.PoseEstimate mt2 =
-        LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-a");
-
-      LimelightHelpers.SetIMUMode("limelight-a", 2);
-      if (Math.abs(getRobotVelocity().omegaRadiansPerSecond) > Math.toRadians(720))
-      {
-        doRejectUpdate = true;
-      }
-        if (mt2.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
-       
-      if (!doRejectUpdate)
-      {
-
-        System.out.println("limelight updating field pose!!!1");
-        swerveDrivePoseEstimator.setVisionMeasurementStdDevs(
-          VecBuilder.fill(.7, .7, 9999999));
-
-        swerveDrivePoseEstimator.addVisionMeasurement(
-          mt2.pose,
-          mt2.timestampSeconds);
-      }
       //--------------------------------------------------------------
 
       if (SwerveDriveTelemetry.isSimulation)
