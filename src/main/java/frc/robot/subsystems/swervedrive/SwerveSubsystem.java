@@ -111,13 +111,12 @@ public class SwerveSubsystem extends SubsystemBase
                                              Rotation2d.fromDegrees(0)));
     
   }
-
+  
   @Override
   public void periodic()
   {
-
-    // When vision is enabled we must manually update odometry in SwerveDrive
     
+    // When vision is enabled we must manually update odometry in SwerveDrive
     SmartDashboard.putNumber("odometry", 3);
   }
 

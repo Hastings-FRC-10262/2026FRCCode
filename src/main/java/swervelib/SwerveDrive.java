@@ -1170,7 +1170,6 @@ public class SwerveDrive implements AutoCloseable
    */
   public void updateOdometry()
   {
-    System.out.println("updating odom");
     SwerveDriveTelemetry.startOdomCycle();
     odometryLock.lock();
 //    invalidateCache();
@@ -1178,9 +1177,10 @@ public class SwerveDrive implements AutoCloseable
     {
       // Update odometry
       swerveDrivePoseEstimator.update(getYaw(), getModulePositions());
-      
-      boolean doRejectUpdate = false;
 
+      //THIS LIMELIGHT CODE DOES NOT WORK---------------------------------------------------------------
+      boolean doRejectUpdate = false;
+      
       LimelightHelpers.SetRobotOrientation(
         "limelight-a",
         swerveDrivePoseEstimator.getEstimatedPosition().getRotation().getDegrees(),
@@ -1198,9 +1198,9 @@ public class SwerveDrive implements AutoCloseable
       {
         doRejectUpdate = true;
       }
-
-      //if (!doRejectUpdate)
-      //{
+       
+      if (!doRejectUpdate)
+      {
 
         System.out.println("limelight updating field pose!!!1");
         swerveDrivePoseEstimator.setVisionMeasurementStdDevs(
@@ -1209,7 +1209,8 @@ public class SwerveDrive implements AutoCloseable
         swerveDrivePoseEstimator.addVisionMeasurement(
           mt2.pose,
           mt2.timestampSeconds);
-      //}
+      }
+      //--------------------------------------------------------------
 
       if (SwerveDriveTelemetry.isSimulation)
       {
