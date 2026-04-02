@@ -51,16 +51,17 @@ public class Leds extends SubsystemBase {
         m_Led.set(0.0);
     }
     public void setRainbow(){
-        m_Led.set(-0.99);
+        m_Led.set(-0.97);
     }
     @Override
-    public void periodic(){
+    public void periodic() {
+        //System.out.println(shooter.FlywheelSpinning());
         if (shooter.FlywheelSpinning()){
-            setRed();  
+            this.setRainbow();
         // }else if(intake.isIntakeRunning()){
-        //     setGreen();
+        //    setGreen();
         }else{
-            setWhite();
+            this.setGreen();
         }
     }
 

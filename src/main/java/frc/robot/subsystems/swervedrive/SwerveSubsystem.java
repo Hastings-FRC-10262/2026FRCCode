@@ -17,6 +17,8 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.DriveFeedforwards;
 import com.pathplanner.lib.util.swerve.SwerveSetpoint;
 import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
+
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -109,16 +111,87 @@ public class SwerveSubsystem extends SubsystemBase
                                   Constants.MAX_SPEED,
                                   new Pose2d(new Translation2d(Meter.of(2), Meter.of(0)),
                                              Rotation2d.fromDegrees(0)));
-    
   }
   
   @Override
   public void periodic()
   {
-    
+      System.out.println(swerveDrive.getPose().getRotation().getDegrees());
+      boolean doRejectUpdate = false;
+      if (Constants.LimelightSettings.mt2){
+        LimelightHelpers.PoseEstimate mt2 =
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-a");
+
+
+        if (Math.abs(getRobotVelocity().omegaRadiansPerSecond) > Math.toRadians(180))
+        {
+          doRejectUpdate = true;
+        }
+          if (mt2 == null || mt2.tagCount < 1)
+        {
+          doRejectUpdate = true;
+        }
+
+
+        if (!doRejectUpdate)
+        {
+          if (mt2.tagCount >= 2){
+            swerveDrive.setVisionMeasurementStdDevs(
+            VecBuilder.fill(.3, .3, 9999999));
+          }else{
+            swerveDrive.setVisionMeasurementStdDevs(
+            VecBuilder.fill(.7, .7, 9999999));
+          }
+         
+
+
+          swerveDrive.addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+        }
+      }else if(Constants.LimelightSettings.mt1){
+        LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        if(mt1 == null || mt1.tagCount < 1)
+        {
+          doRejectUpdate = true;
+          System.out.println("doRejectUpdate=true, mt1 == null || mt1.tagCount < 1");
+
+        }
+        if(!doRejectUpdate){
+          if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+        {
+          if(mt1.rawFiducials[0].ambiguity > .7)
+          {
+            doRejectUpdate = true;
+            System.out.println("doRejectUpdate=true, mt1.rawFiducials[0].ambiguity > .7");
+
+          }
+          if(mt1.rawFiducials[0].distToCamera > 3)
+          {
+            System.out.println("doRejectUpdate=true, mt1.rawFiducials[0].distToCamera > 3");
+            doRejectUpdate = true;
+          }
+        }
+        }
+       
+
+
+
+
+        if(!doRejectUpdate)
+        {
+          
+          swerveDrive.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+          swerveDrive.addVisionMeasurement(
+              mt1.pose,
+              mt1.timestampSeconds);
+        }
+      }
     // When vision is enabled we must manually update odometry in SwerveDrive
     SmartDashboard.putNumber("odometry", 3);
+    SmartDashboard.putNumber("GetAprilagCount", 2);
   }
+
 
   @Override
   public void simulationPeriodic()

@@ -38,6 +38,11 @@ public final class Constants
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
+    public static final class LimelightSettings{
+    public static final boolean mt1 = false;
+    public static final boolean mt2 = false;
+  }
+
   public static final class ArmSubsystemConstants{
     public static final int kArmMotorCanId = 15;
     public static final double armTolerance =2;//change these constants

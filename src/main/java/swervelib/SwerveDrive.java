@@ -1179,21 +1179,32 @@ public class SwerveDrive implements AutoCloseable
       swerveDrivePoseEstimator.update(getYaw(), getModulePositions());
       boolean doRejectUpdate = false;
       //LIMELIGHT SECTION NOT WORKING
-      LimelightHelpers.SetRobotOrientation("limelight-a", swerveDrivePoseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-a");
+      // LimelightHelpers.SetRobotOrientation("limelight-a", swerveDrivePoseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      // LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-a");
+      
+      // if(mt1.tagCount == 1 && mt1.rawFiducials.length == 1)
+      // {
+      //   if(mt1.rawFiducials[0].ambiguity > .7)
+      //   {
+      //     doRejectUpdate = true;
+      //   }
+      //   if(mt1.rawFiducials[0].distToCamera > 3)
+      //   {
+      //     doRejectUpdate = true;
+      //   }
+      // }
+      // if(mt1.tagCount == 0)
+      // {
+      //   doRejectUpdate = true;
+      // }
 
-
-      if(mt2.tagCount == 0)
-      {
-        doRejectUpdate = true;
-      }
-      if(!doRejectUpdate)
-      {
-        swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-        swerveDrivePoseEstimator.addVisionMeasurement(
-            mt2.pose,
-            mt2.timestampSeconds);
-      }
+      // if(!doRejectUpdate)
+      // {
+      //   swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+      //   swerveDrivePoseEstimator.addVisionMeasurement(
+      //       mt1.pose,
+      //       mt1.timestampSeconds);
+      // }
 
       //swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
       //swerveDrivePoseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);

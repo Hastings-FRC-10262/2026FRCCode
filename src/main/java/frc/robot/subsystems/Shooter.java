@@ -28,7 +28,7 @@ import frc.robot.subsystems.Conveyor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase{
-    
+  //should be private vvv
   private SparkFlex flywheelMotor = new SparkFlex(ShooterSubsystemConstants.kFlywheelMotorCanId, MotorType.kBrushless);
   private SparkClosedLoopController flywheelController = flywheelMotor.getClosedLoopController();
   private RelativeEncoder flywheelEncoder = flywheelMotor.getEncoder();
@@ -138,13 +138,13 @@ public class Shooter extends SubsystemBase{
     flywheelTargetVelocity = velocity;
   }
   public boolean FlywheelSpinning(){
-    return flywheelEncoder.getVelocity() > (0)||flywheelEncoder.getVelocity() == (0);
+    return flywheelEncoder.getVelocity() > (wantedVelocity*.75);//||flywheelEncoder.getVelocity() == (0);
   }
   /** Set the feeder motor power in the range of [-1, 1]. */
   private void setFeederPower(double power) {
     feederMotor.set(power);
   }
-  
+  //"im a mucho"
   /**
    * Command to run the flywheel motors. When the command is interrupted, e.g. the button is released,
    * the motors will stop.
@@ -178,10 +178,10 @@ public class Shooter extends SubsystemBase{
    * Meta-command to operate the shooter. The Flywheel starts spinning up and when it reaches
    * the desired speed it starts the Feeder.
    */
-  public Command runShooterCommand(Double speed) {
+  public Command runShooterCommand(Double speed, Double error) {
     return this.startEnd(
       () -> {
-        wantedVelocity=speed*60;
+        wantedVelocity=(speed*60)*error;
         this.setFlywheelVelocity(speed);
             },
       () -> flywheelMotor.stopMotor()
@@ -211,7 +211,7 @@ public class Shooter extends SubsystemBase{
           this.setFlywheelVelocity(speed);
           this.setFeederPower(FeederSetpoints.kFeed);
           //run conveyor while shooter
-          wantedVelocity=speed*60;
+          wantedVelocity=(speed*60)*.8;
           m_Conveyor.alternateConveyorPower(ConveyorSetpoints.kIntake,ConveyorSetpoints.Time);
         }, () -> {
           flywheelTargetVelocity=0;
