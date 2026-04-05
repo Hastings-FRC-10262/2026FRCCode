@@ -150,7 +150,7 @@ public class SwerveSubsystem extends SubsystemBase
             mt2.timestampSeconds);
         }
       }else if(Constants.LimelightSettings.mt1){
-        LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-a");
         if(mt1 == null || mt1.tagCount < 1)
         {
           doRejectUpdate = true;
