@@ -237,7 +237,8 @@ public class RobotContainer
     m_chooser.setDefaultOption("Stockpile","Stockpile");
     m_chooser.addOption("ShooterLeft", "ShooterLeft");
     m_chooser.addOption("Depo", "Depo");
-    m_chooser.addOption("Middle", "Middle");
+    m_chooser.addOption("MiddleLeft", "MiddleLeft");
+    m_chooser.addOption("MiddleRight", "MiddleRight");
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);

@@ -20,12 +20,12 @@
         "y": 5.445888888888889
       },
       "prevControl": {
-        "x": 3.855933333333333,
+        "x": 3.8559333333333337,
         "y": 5.556744444444445
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftMiddleAfterBump"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -36.46923439005181
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -40.50284838533221
+    "rotation": 170.32855519359416
   },
   "useDefaultConstraints": true
 }

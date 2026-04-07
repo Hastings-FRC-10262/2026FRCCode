@@ -65,8 +65,8 @@ public final class Constants
     }
 
     public static final class ConveyorSetpoints {
-      public static final double kIntake = 0.55;
-      public static final double kExtake = -0.55;
+      public static final double kIntake = 0.65;
+      public static final double kExtake = -0.65;
       public static final double Time = 0.7;//change these constants
     }
   }
