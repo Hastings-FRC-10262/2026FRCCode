@@ -97,7 +97,8 @@ public class SwerveSubsystem extends SubsystemBase
 
     setupPathPlanner();
 
-    LimelightHelpers.SetIMUMode("limelight-a", 0);
+    LimelightHelpers.SetIMUMode(Constants.LimelightSettings.limelightname, 0);
+    LimelightHelpers.SetIMUMode(Constants.LimelightSettings.limelightname2, 0);
   }
 
   /**
@@ -120,10 +121,10 @@ public class SwerveSubsystem extends SubsystemBase
   {
       // System.out.println(swerveDrive.getPose().getRotation().getDegrees());
       boolean doRejectUpdate = false;
-      LimelightHelpers.SetRobotOrientation("limelight-a", swerveDrive.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation(Constants.LimelightSettings.limelightname, swerveDrive.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
       if (Constants.LimelightSettings.mt2){
         LimelightHelpers.PoseEstimate mt2 =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-a");
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimelightSettings.limelightname);
 
 
         if (Math.abs(getRobotVelocity().omegaRadiansPerSecond) > Math.toRadians(180))
@@ -153,11 +154,10 @@ public class SwerveSubsystem extends SubsystemBase
             mt2.timestampSeconds);
         }
       }else if(Constants.LimelightSettings.mt1){
-        LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-a");
+        LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.LimelightSettings.limelightname);
         if(mt1 == null || mt1.tagCount < 1)
         {
           doRejectUpdate = true;
-          System.out.println("doRejectUpdate=true, mt1 == null || mt1.tagCount < 1");
 
         }
         if(!doRejectUpdate){
@@ -166,12 +166,10 @@ public class SwerveSubsystem extends SubsystemBase
           if(mt1.rawFiducials[0].ambiguity > .7)
           {
             doRejectUpdate = true;
-            System.out.println("doRejectUpdate=true, mt1.rawFiducials[0].ambiguity > .7");
 
           }
           if(mt1.rawFiducials[0].distToCamera > 3)
           {
-            System.out.println("doRejectUpdate=true, mt1.rawFiducials[0].distToCamera > 3");
             doRejectUpdate = true;
           }
         }
@@ -190,9 +188,77 @@ public class SwerveSubsystem extends SubsystemBase
               mt1.timestampSeconds);
         }
       }
+    if (Constants.LimelightSettings.TwoLimelights){
+      boolean doRejectUpdateB = false;
+      LimelightHelpers.SetRobotOrientation(Constants.LimelightSettings.limelightname2, swerveDrive.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      if (Constants.LimelightSettings.mt2){
+        LimelightHelpers.PoseEstimate mt2b =
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LimelightSettings.limelightname2);
+
+
+        if (Math.abs(getRobotVelocity().omegaRadiansPerSecond) > Math.toRadians(180))
+        {
+          doRejectUpdateB = true;
+        }
+          if (mt2b == null || mt2b.tagCount < 1)
+        {
+          doRejectUpdateB = true;
+        }
+
+
+        if (!doRejectUpdateB)
+        {
+          if (mt2b.tagCount >= 2){
+            swerveDrive.setVisionMeasurementStdDevs(
+            VecBuilder.fill(.3, .3, 9999999));
+          }else{
+            swerveDrive.setVisionMeasurementStdDevs(
+            VecBuilder.fill(.7, .7, 9999999));
+          }
+         
+
+
+          swerveDrive.addVisionMeasurement(
+            mt2b.pose,
+            mt2b.timestampSeconds);
+        }else if(Constants.LimelightSettings.mt1){
+        LimelightHelpers.PoseEstimate mt1b = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.LimelightSettings.limelightname2);
+        if(mt1b == null || mt1b.tagCount < 1)
+        {
+          doRejectUpdateB = true;
+
+        }
+        if(!doRejectUpdateB){
+          if(mt1b.tagCount == 1 && mt1b.rawFiducials.length == 1)
+        {
+          if(mt1b.rawFiducials[0].ambiguity > .7)
+          {
+            doRejectUpdateB = true;
+
+          }
+          if(mt1b.rawFiducials[0].distToCamera > 3)
+          {
+            doRejectUpdateB = true;
+          }
+        }
+        }
+       
+
+
+
+
+        if(!doRejectUpdateB)
+        {
+          
+          swerveDrive.setVisionMeasurementStdDevs(VecBuilder.fill(.5,.5,9999999));
+          swerveDrive.addVisionMeasurement(
+              mt1b.pose,
+              mt1b.timestampSeconds);
+        }
+      }
+      }
+    }
     // When vision is enabled we must manually update odometry in SwerveDrive
-    SmartDashboard.putNumber("odometry", 3);
-    SmartDashboard.putNumber("GetAprilagCount", 2);
   }
 
 

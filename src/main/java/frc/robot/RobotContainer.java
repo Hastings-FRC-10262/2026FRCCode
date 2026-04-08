@@ -234,11 +234,11 @@ public class RobotContainer
    * @return the command to run in autonomous
    */ 
   private void configureAutos() {
-    m_chooser.setDefaultOption("Stockpile","Stockpile");
+    m_chooser.addOption("Stockpile","Stockpile");
     m_chooser.addOption("ShooterLeft", "ShooterLeft");
     m_chooser.addOption("Depo", "Depo");
     m_chooser.addOption("MiddleLeft", "MiddleLeft");
-    m_chooser.addOption("MiddleRight", "MiddleRight");
+    m_chooser.setDefaultOption("MiddleRight", "MiddleRight");
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);

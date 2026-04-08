@@ -41,6 +41,9 @@ public final class Constants
     public static final class LimelightSettings{
     public static final boolean mt1 = false;
     public static final boolean mt2 = true;
+    public static final boolean TwoLimelights = true;
+    public static final String limelightname="limelight-a";
+    public static final String limelightname2="limelight-b";
   }
 
   public static final class ArmSubsystemConstants{
