@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RightMiddleAutoStart"
+                  "pathName": "AutoMiddleStart"
                 }
               },
               {
@@ -26,26 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RightMiddleAutoBump"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RightMiddleLoop"
-                }
-              }
-            ]
+            "pathName": "GoToMiddle"
           }
         },
         {
@@ -55,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RightMiddleBack"
+                  "pathName": "Middleloop"
                 }
               },
               {
@@ -68,15 +49,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "RightMiddleBump"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "GoBack"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RightMiddleShoot"
+            "pathName": "BumpAndShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftMiddleShoot"
           }
         },
         {

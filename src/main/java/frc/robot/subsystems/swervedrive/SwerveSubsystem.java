@@ -96,6 +96,8 @@ public class SwerveSubsystem extends SubsystemBase
     // swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
 
     setupPathPlanner();
+
+    LimelightHelpers.SetIMUMode("limelight-a", 0);
   }
 
   /**
@@ -116,8 +118,9 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-      System.out.println(swerveDrive.getPose().getRotation().getDegrees());
+      // System.out.println(swerveDrive.getPose().getRotation().getDegrees());
       boolean doRejectUpdate = false;
+      LimelightHelpers.SetRobotOrientation("limelight-a", swerveDrive.getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
       if (Constants.LimelightSettings.mt2){
         LimelightHelpers.PoseEstimate mt2 =
           LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-a");
@@ -235,9 +238,9 @@ public class SwerveSubsystem extends SubsystemBase
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
-              new PIDConstants(5, 0.0, 0.0),
+              new PIDConstants(3, 0.0, 0.0),
               // Translation PID constants
-              new PIDConstants(5, 0.0, 0.0)
+              new PIDConstants(3, 0.0, 0.0)
               // Rotation PID constants
           ),
           config,
@@ -611,6 +614,7 @@ public class SwerveSubsystem extends SubsystemBase
     } else
     {
       zeroGyro();
+      resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
     }
   }
 

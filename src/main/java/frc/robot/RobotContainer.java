@@ -72,8 +72,8 @@ public class RobotContainer
   private final Conveyor conveyor = new Conveyor();
   private final Shooter shooter = new Shooter(conveyor);
   private final Intake intake = new Intake(conveyor);
-  private final Arm arm= new Arm();
-  private final Leds leds = new Leds(0, sensor,shooter,intake);
+  private final Arm arm = new Arm();
+  //private final Leds leds = new Leds(0, sensor,shooter,intake);
 
 
   
@@ -143,9 +143,10 @@ public class RobotContainer
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
     NamedCommands.registerCommand("intake", intake.runIntakeCommand(-.60));
-    NamedCommands.registerCommand("shooter", (shooter.runShooterCommand(40.0,.85)));
-    NamedCommands.registerCommand("Arm",arm.Movearm(-3.0));
-    
+    NamedCommands.registerCommand("shooter", (shooter.runShooterCommand(33.0,.85)));
+    NamedCommands.registerCommand("Arm",arm.Movearm(14.0));
+
+    SmartDashboard.putData("Zero Gyro", Commands.runOnce(drivebase::zeroGyroWithAlliance).ignoringDisable(true));
   }
 
   /**
@@ -174,7 +175,7 @@ public class RobotContainer
     {
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
     }
-
+    //Bread
     if (Robot.isSimulation())
     {
       Pose2d target = new Pose2d(new Translation2d(1, 4),
@@ -216,8 +217,8 @@ public class RobotContainer
       driverXbox.rightTrigger().whileTrue(intake.runIntakeCommand(-1.0));
       driverXbox.rightBumper().whileTrue(intake.runIntakeCommand(-.80));
       driverXbox.leftBumper().whileTrue(intake.runExtakeCommand());
-      driverXbox.a().whileTrue(shooter.runShooterCommand(30.0,.85));
-      driverXbox.b().whileTrue(shooter.runShooterCommand(40.0,.85));
+      driverXbox.a().whileTrue(shooter.runShooterCommand(33.0,.85));
+      driverXbox.b().whileTrue(shooter.runShooterCommand(38.0,.85));
       driverXbox.y().whileTrue(shooter.runShooterCommand(50.0,.65));
       driverXbox.x().whileTrue(conveyor.MoveConveyor(30.0));
       driverXbox.leftTrigger().whileTrue(arm.Movearm(14.0));
@@ -236,6 +237,8 @@ public class RobotContainer
     m_chooser.setDefaultOption("Stockpile","Stockpile");
     m_chooser.addOption("ShooterLeft", "ShooterLeft");
     m_chooser.addOption("Depo", "Depo");
+    m_chooser.addOption("MiddleLeft", "MiddleLeft");
+    m_chooser.addOption("MiddleRight", "MiddleRight");
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);
     //m_chooser.addOption("", Autos.);

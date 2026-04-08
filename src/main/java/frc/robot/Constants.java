@@ -40,7 +40,7 @@ public final class Constants
   }
     public static final class LimelightSettings{
     public static final boolean mt1 = false;
-    public static final boolean mt2 = false;
+    public static final boolean mt2 = true;
   }
 
   public static final class ArmSubsystemConstants{
@@ -65,8 +65,8 @@ public final class Constants
     }
 
     public static final class ConveyorSetpoints {
-      public static final double kIntake = 0.55;
-      public static final double kExtake = -0.55;
+      public static final double kIntake = 0.65;
+      public static final double kExtake = -0.65;
       public static final double Time = 0.7;//change these constants
     }
   }
