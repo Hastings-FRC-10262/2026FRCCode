@@ -28,7 +28,12 @@
       "linkedName": "RightMiddleBump"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3,
+      "rotationDegrees": 90.21487621376427
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -48,7 +53,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 35.788973459183396
+    "rotation": 64.88516511385549
   },
   "useDefaultConstraints": true
 }

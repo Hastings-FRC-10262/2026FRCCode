@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.225148279952552,
-        "y": 2.566370106761566
+        "x": 5.2574258600237265,
+        "y": 2.587888493475682
       },
       "isLocked": false,
       "linkedName": "RightMiddleBack"
@@ -28,7 +28,12 @@
       "linkedName": "RightMiddleShoot"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 90.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 157.47943439710295
+    "rotation": 47.021364940356065
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": -178.93908830973575
+    "velocity": 1.0,
+    "rotation": 88.51213247117235
   },
   "useDefaultConstraints": true
 }
